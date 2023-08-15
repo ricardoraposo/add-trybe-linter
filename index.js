@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-const fs = require("fs").promises;
-const { spawn, spawnSync } = require("child_process");
+import fs from "fs/promises"
+import { spawnSync } from "child_process"
 
 const path = "./package.json"
 const eslintConfig = "./.eslintrc.json"

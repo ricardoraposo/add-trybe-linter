@@ -3,7 +3,7 @@
 const fs = require("fs").promises;
 const { execSync } = require("child_process");
 
-const path = "./package.json"
+const path = "./test.json"
 const eslintConfig = "./.eslintrc.json"
 const dependenciesToRemove = [
   /^.*@typescript-eslint\/eslint-plugin.*$/,
@@ -13,7 +13,6 @@ const dependenciesToRemove = [
   /^.*eslint-plugin-react-refresh.*$/,
 ];
 
-
 async function removeLines(regexList) {
   const data = await fs.readFile(path, 'utf-8')
   const lines = data.split('\n');
@@ -22,8 +21,11 @@ async function removeLines(regexList) {
   });
 
   const updatedContent = filteredLines.join('\n');
-
   await fs.writeFile(path, updatedContent);
+
+  let re = new RegExp('^.*' + '"lint"' + '.*$', 'gm');
+  let formatted = data.replace(re, '\t"lint": "eslint -c .eslintrc.json . --ext .js,.jsx,.ts,.tsx"');
+  await fs.writeFile(path, formatted);
 }
 
 async function createConfigFile() {

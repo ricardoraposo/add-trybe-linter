@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const fs = require("fs").promises;
-const { execSync } = require("child_process");
+const { spawn, spawnSync } = require("child_process");
 
 const path = "./package.json"
 const eslintConfig = "./.eslintrc.json"
@@ -51,17 +51,7 @@ async function checkViteConfig() {
 }
 
 function installPackage() {
-  const cmd = "npm install @trybe/eslint-config-frontend -D"
-  execSync(cmd, (err, stdout, stderr) => {
-    if (err) {
-      console.error(`Erro ao instalar o pacote: ${err.message}`);
-      return;
-    }
-
-    console.log(`Pacote instalado com sucesso!`);
-    console.log('stdout:', stdout);
-    console.log('stderr:', stderr);
-  })
+  spawnSync("npm", ["install", "@trybe/eslint-config-frontend", "-D"], { stdio: 'inherit' })
 }
 
 async function main() {

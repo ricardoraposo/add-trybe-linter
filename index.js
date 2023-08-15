@@ -3,7 +3,7 @@
 const fs = require("fs").promises;
 const { execSync } = require("child_process");
 
-const path = "./test.json"
+const path = "./package.json"
 const eslintConfig = "./.eslintrc.json"
 const dependenciesToRemove = [
   /^.*@typescript-eslint\/eslint-plugin.*$/,
@@ -22,9 +22,13 @@ async function removeLines(regexList) {
 
   const updatedContent = filteredLines.join('\n');
   await fs.writeFile(path, updatedContent);
+}
 
+async function correctLintCmd(){
+  const data = await fs.readFile(path, 'utf-8')
   let re = new RegExp('^.*' + '"lint"' + '.*$', 'gm');
-  let formatted = data.replace(re, '\t"lint": "eslint -c .eslintrc.json . --ext .js,.jsx,.ts,.tsx"');
+  let formatted = data.replace(re, '\t\t"lint": "eslint -c .eslintrc.json . --ext .js,.jsx,.ts,.tsx",');
+
   await fs.writeFile(path, formatted);
 }
 
@@ -63,6 +67,7 @@ function installPackage() {
 async function main() {
   if (await checkViteConfig()) {
     await removeLines(dependenciesToRemove);
+    await correctLintCmd();
     await createConfigFile();
     installPackage();
   } else {

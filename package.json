@@ -1,6 +1,6 @@
 {
   "name": "add-trybe-linter",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Um script para automatizar a implementacão do linter da trybe",
   "main": "index.js",
   "bin": "./index.js",

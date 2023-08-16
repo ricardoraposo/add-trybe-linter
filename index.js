@@ -3,7 +3,7 @@
 import fs from "fs/promises"
 import { spawnSync } from "child_process"
 
-const path = "./test.json"
+const path = "./package.json"
 const eslintConfig = "./.eslintrc.json"
 const dependenciesToRemove = [
   /^.*@typescript-eslint\/eslint-plugin.*$/,

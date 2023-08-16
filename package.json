@@ -5,6 +5,10 @@
   "type": "module",
   "main": "index.js",
   "bin": "./index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ricardoraposo/add-trybe-linter.git"
+  },
   "scripts": {
     "start": "node index.js"
   },

@@ -3,7 +3,7 @@
 import fs from "fs/promises"
 import { spawnSync } from "child_process"
 
-const path = "./package.json"
+const path = "./test.json"
 const eslintConfig = "./.eslintrc.json"
 const dependenciesToRemove = [
   /^.*@typescript-eslint\/eslint-plugin.*$/,
@@ -24,12 +24,14 @@ async function removeLines(regexList) {
   await fs.writeFile(path, updatedContent);
 }
 
-async function correctLintCmd(){
-  const data = await fs.readFile(path, 'utf-8')
-  let re = new RegExp('^.*' + '"lint"' + '.*$', 'gm');
-  let formatted = data.replace(re, '\t\t"lint": "eslint -c .eslintrc.json . --ext .js,.jsx,.ts,.tsx",');
-
-  await fs.writeFile(path, formatted);
+async function correctLintCmd() {
+  try {
+    const data = await fs.readFile(path, 'utf-8')
+    let formatted = data.replace(/^.*"lint".*$/m, '\t\t"lint": "eslint -c .eslintrc.json . --ext .js,.jsx,.ts,.tsx",');
+    await fs.writeFile(path, formatted);
+  } catch (err) {
+    console.error(err);
+  }
 }
 
 async function createConfigFile() {
